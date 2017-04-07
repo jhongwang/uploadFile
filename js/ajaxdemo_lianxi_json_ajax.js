@@ -1,0 +1,74 @@
+$(document).ready(function(){
+   $('#search').click(function(){
+      $.ajax({
+         type:'GET',
+         url:'http://192.168.56.1/works/ajaxdemoceshi/servicejson.php?number='+$('#keyword').val(),
+         datatype:'json',
+         success:function(data){
+            if(data.success){
+               $('#search_text').html(data.msg);
+            }else{
+               $('#search_text').html('错误信息：'+data.msg);
+            }
+         },
+         error:function(jqxhr){
+           console.log('错误报告：'+jqxhr.status);
+           console.log(jqxhr);
+           console.log(jqxhr.errorThrown);
+         }
+      })
+   })
+
+$('#create').click(function(){//测试form提交用的
+  var conf = {
+           "number":$('#staffnumber').val(),
+           "name":$('#staffname').val(),
+           "sex":$('#staffsex').val(),
+           "job":$('#staffjob').val(),
+           "list":[{
+            "name":"lili",
+            "sex":"女"
+           },{
+             "name":"lei",
+             "old":"23",
+             "sex":"男"
+           }]
+  }
+    $.ajax({
+       type:'POST',
+       url:'servicejson.php?user_version=version1',
+       datatype:'json',
+       data:{"conf":JSON.stringify(conf)},
+       success:function(data){
+         alert('成功了')
+       },
+       error:function(jqxhr){
+          console.log('错误报告：'+jqxhr.status);
+       }
+    })
+ })
+/* $('#create').click(function(){
+    $.ajax({
+       type:'POST',
+       url:'servicejson.php',
+       datatype:'json',
+       data:{
+           number:$('#staffnumber').val(),
+           name:$('#staffname').val(),
+           sex:$('#staffsex').val(),
+           job:$('#staffjob').val()
+       },
+       success:function(data){
+         if(data.success){
+            $('#create_text').html(data.msg);
+         }else{
+            $('#create_text').html('错误信息：'+data.msg);
+         }
+       },
+       error:function(jqxhr){
+          alert('错误报告：'+jqxhr.status);
+       }
+    })
+ })*/
+})
+

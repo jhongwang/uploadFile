@@ -1,0 +1,44 @@
+$(document).ready(function(){
+   $('#search').click(function(){
+      $.ajax({
+         type:'GET',
+         url:'http://192.168.56.1/ajaxdemo/serviceH5.php?number='+$('#keyword').val(),
+         dataType:'json',
+         success:function(data){
+            if(data.success){
+               $('#search_text').html(data.msg);
+            }else{
+               $('#search_text').html('错误信息：'+data.msg);
+            }
+         },
+         error:function(jqxhr){
+           alert('错误报告：'+jqxhr.status);
+         }
+      })
+   })
+
+ $('#create').click(function(){
+    $.ajax({
+       type:'POST',
+       url:'servicejsonp.php',
+       dataType:'json',
+       data:{
+           number:$('#staffnumber').val(),
+           name:$('#staffname').val(),
+           sex:$('#staffsex').val(),
+           job:$('#staffjob').val()
+       },
+       success:function(data){
+         if(data.success){
+            $('#create_text').html(data.msg);
+         }else{
+            $('#create_text').html('错误信息：'+data.msg);
+         }
+       },
+       error:function(jqxhr){
+          alert('错误报告：'+jqxhr.status);
+       }
+    })
+ })
+})
+
