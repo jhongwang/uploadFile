@@ -65,16 +65,10 @@
    alert('请选择文件');
    return;
   }
- up();
+ up1();
  
  }
- 
- function up(){
-  /*
-  if(pending){
-   return;
-  }
-  */
+  function up1(){
   if(start<file.size){
    xhr.open('POST','servicejsonp.php',true);
    //xhr.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
@@ -88,8 +82,50 @@
        //num.innerHTML='';
        //clearInterval(clock);
       }else{
-       //alert(this.responseText)
-       // pending=false;
+        up()
+      }
+     }
+    }
+   }
+   xhr.upload.onprogress=function(ev){
+    console.log(ev)
+    if(ev.lengthComputable){
+
+     pecent=100*(ev.loaded+start)/file.size;
+     console.log(ev.loaded+start)
+     console.log(ev.loadData)
+     if(pecent>100){
+      pecent=100;
+     }
+     //num.innerHTML=parseInt(pecent)+'%';
+     des.style.width=pecent+'%';
+     des.innerHTML = parseInt(pecent)+'%'
+    }
+   }
+　　　　　　　
+　　//分割文件核心部分slice
+   blob=file.slice(start,end);
+   console.log(blob)
+   fd=new FormData();
+   fd.append('mof',blob);
+   fd.append('test',file.name);
+   console.log(fd);
+   //pending=true;
+   xhr.send(fd);
+  }
+ }
+ function up(){
+  if(start<file.size){
+   xhr.open('POST','servicejsonpPd.php',true);
+   //xhr.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
+   xhr.onreadystatechange=function(){
+    if(this.readyState==4){
+     if(this.status>=200&&this.status<300){
+      if(this.responseText.indexOf('failed') >= 0){
+       //alert(this.responseText);
+       alert('文件发送失败，请重新发送');
+       des.style.width='0%';
+      }else{
        start=end;
        end=start+LENGTH;
        setTimeout('up()',1000);

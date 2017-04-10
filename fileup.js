@@ -24,9 +24,9 @@ define(function(require,exports,module){
 	   alert('请选择文件');
 	   return;
 	  }
-	  self.up();
+	  self.up1();
    };
-   File.prototype.up = function(){
+   File.prototype.up1 = function(){
    	   var self = this;
    	   if(self.start<self.file.size){
 	   self.xhr.open('POST','servicejsonp.php',true);
@@ -41,11 +41,32 @@ define(function(require,exports,module){
 	       //num.innerHTML='';
 	       //clearInterval(clock);
 	      }else{
-	       //alert(this.responseText)
-	       // pending=false;
-	       self.start=self.end;
-	       self.end=self.start+self.LENGTH;
-	       setTimeout('self.up()',1000);
+	      	//self.up();
+	      }
+	 
+	     }
+	    }
+	   }
+   };
+   File.prototype.up = function(){
+   	   var self = this;
+   	   alert('up')
+   	   if(self.start<self.file.size){
+	   self.xhr.open('POST','servicejsonpPd.php',true);
+	   //xhr.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
+	   self.xhr.onreadystatechange=function(){
+	    if(this.readyState==4){
+	     if(this.status>=200&&this.status<300){
+	      if(this.responseText.indexOf('failed') >= 0){
+	       //alert(this.responseText);
+	       alert('文件发送失败，请重新发送');
+	       self.des.style.width='0%';
+	       //num.innerHTML='';
+	       //clearInterval(clock);
+	      }else{
+	      	 self.start=self.end;
+	         self.end=self.start+self.LENGTH;
+	         setTimeout('self.up()',1000);
 	      }
 	 
 	     }

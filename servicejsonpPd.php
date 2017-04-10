@@ -10,13 +10,12 @@ echo 71;
    echo 'fileFailed1';
   }
  }else{//同名的走这里
- 	echo 712;
-  //$content=file_get_contents($file['tmp_name']);
-  unlink('./upload/'.$_POST['test']);
-  /*if (!file_put_contents('./upload/'.$_POST['test'], $content,FILE_APPEND)) {
+ 	echo 'tongming';
+  $content=file_get_contents($file['tmp_name']);
+  if (!file_put_contents('./upload/'.$_POST['test'], $content,FILE_APPEND)) {
   	echo 7121;
-   echo 'fileFailed2';
-  }*/
+    echo 'fileFailed2';
+  }
  }
 }else{
  echo 72;
